@@ -1,0 +1,18 @@
+{% extends "attend_class_app/base.html" %}
+{% block content %}
+    <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ unit.user.profile.image.url }}">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ object.Lecturer }}</a>
+            <!-- <small class="text-muted">{{ unit.UnitTopics }}</small> tags -->
+            
+        </div>
+        <h2 class="article-content">{{ object.UnitName }}</h2>
+        <p class="article-content">{{ object.UnitTopics }}</p>
+    </div>
+    </article>
+{% endblock content %}
+
+
+
