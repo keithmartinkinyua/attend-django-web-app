@@ -57,10 +57,9 @@ def about(request):
 
 
 
-def themodel(request):
+def themodel(image):
     mdl=joblib.load("my_4.2_model_weights.pkl")
-    face =request.data
-    pred = mdl.predict(face)
+    pred = mdl.predict(image)
     return pred
 
 
@@ -86,12 +85,18 @@ def themodel(request):
 def facesystem(request):
 
     if request.method == "POST":
-        form = Uploadphoto(request.POST)
+        print(request.values)
+        form = Uploadphoto(request.POST, request.FILES)
         if form.is_valid():
             image = form.cleaned_data['image']
+            print(type(image))
             pred = themodel(image)
+            print(pred)
             messages.success(request,'Prediction: {}'.format(pred))
-    
+        else:
+            print(form.errors)
+            print('Not valid')
+        
     form = Uploadphoto()
 
     return render( request, 'attend_class_app/upload.html', {'form':form})
