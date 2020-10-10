@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import (ListView, DetailView, View)
 from .models import Units
-from django import template
+from .forms import Uploadphoto
+import joblib
 
-register = template.Library()
+
 
 
 arr = []
@@ -53,3 +54,44 @@ class UnitDetailView(View):
 
 def about(request):
     return render(request, 'attend_class_app/about.html', {'title':'About'})  
+
+
+
+def themodel(request):
+    mdl=joblib.load("my_4.2_model_weights.pkl")
+    face =request.data
+    pred = mdl.predict(face)
+    return pred
+
+
+## the form data
+'''def cxcontact(request):
+	if request.method=='POST':
+		form=ApprovalForm(request.POST)
+		if form.is_valid():
+				Firstname = form.cleaned_data['firstname']
+				Property_Area = form.cleaned_data['Property_Area']
+				myDict = (request.POST).dict()
+				df=pd.DataFrame(myDict, index=[0])
+				answer=approvereject(ohevalue(df))[0]
+				Xscalers=approvereject(ohevalue(df))[1]
+				print(Xscalers)
+				messages.success(request,'Application Status: {}'.format(answer))
+	
+	form=ApprovalForm()
+				
+	return render(request, 'myform/cxform.html', {'form':form})'''
+
+
+def facesystem(request):
+
+    if request.method == "POST":
+        form = Uploadphoto(request.POST)
+        if form.is_valid():
+            image = form.cleaned_data['image']
+            pred = themodel(image)
+            messages.success(request,'Prediction: {}'.format(pred))
+    
+    form = Uploadphoto()
+
+    return render( request, 'attend_class_app/upload.html', {'form':form})

@@ -9,5 +9,8 @@ class Units(models.Model):
         return self.UnitName
 
 
+class imge(models.Model):
+    img = models.ImageField()
 
-    
+    def __str__(self):
+        return self.img
