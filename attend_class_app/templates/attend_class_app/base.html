@@ -17,6 +17,9 @@
     {% else %}
         <title> attend app </title>
     {% endif %}
+    {% block style %}
+
+    {% endblock %}
 </head>
 <body>
     <header class="site-header">
@@ -38,8 +41,12 @@
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
 
                 {% else %}
-                    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                
+                    <a class="nav-item nav-link" href="{% url 'attend-login' %}">Login</a>
                     <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                {% endif %}
+                {% if user.is_superuser %}
+                <a class="nav-item nav-link" href="{% url 'attend-units' %}">Admin</a>
                 {% endif %}
               </div>
             </div>
@@ -58,6 +65,8 @@
             {% endif %}
             {% block content %}{% endblock %}
           </div>
+          {% if not user.is_superuser %}
+
           <div class="col-md-4">
             <div class="content-section">
               <h3>Jomo Kenyatta News</h3>
@@ -71,6 +80,21 @@
               </p>
             </div>
           </div>
+          {%else %}
+          <div class="col-md-4">
+            <div class="content-section">
+              <h3>Students Attendance</h3>
+              <p class='text-muted'>See everything the students are doing at a glance
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-light">Not attending classes</li>
+                  <li class="list-group-item list-group-item-light">Drinking</li>
+                  <li class="list-group-item list-group-item-light">Partying</li>
+                  <li class="list-group-item list-group-item-light">Nothing</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </main>  
 
@@ -81,6 +105,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% block script %}
 
+    {% endblock %}
 </body>
 </html>

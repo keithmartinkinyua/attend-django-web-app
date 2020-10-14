@@ -1,0 +1,41 @@
+
+{% extends "attend_class_app/base.html" %}
+
+{% block style %}
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<h2>Scheduled Lessons for {{ unit }}</h2>
+<div class="mb-5"></div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Day</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for lesson in lessons %}
+    <tr>
+      <th scope="row"></th>
+        <td>{{ lesson.start_time | date }}</td>
+        <td>{{ lesson.start_time | time }}</td>
+        <td>{{ lesson.end_time | time }}</td>
+        <td>
+            <a href="{% url 'attend-records' lesson.id %}">
+              <span class="material-icons" style="color: blue">rate_review</span>
+            </a>
+        </td>
+    </tr>
+    
+    {% endfor %}
+    
+  </tbody>
+</table>
+    
+       
+    
+{% endblock content %}
