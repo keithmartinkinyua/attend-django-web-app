@@ -11,6 +11,8 @@
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
      <link rel="stylesheet" type="text/css" href="{% static 'attend_class_app/main.css' %}">
+     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
 
     {% if title %}
         <title> attend - {{ title }} </title>
@@ -53,48 +55,39 @@
           </div>
         </nav>
       </header>
-      <main role="main" class="container">
-        <div class="row">
-          <div class="col-md-8">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% block content %}{% endblock %}
-          </div>
-          {% if not user.is_superuser %}
+      <main role="main">          
+        <div class="container-fluid">
+            <div class="logo"></div>
 
-          <div class="col-md-4">
-            <div class="content-section">
-              <h3>Jomo Kenyatta News</h3>
-              <p class='text-muted'>Get the latest news concerning your campus
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-light">Internships, bootcamps and Job oppotunities</li>
-                  <li class="list-group-item list-group-item-light">Announcements</li>
-                  <li class="list-group-item list-group-item-light">Calendars</li>
-                  <li class="list-group-item list-group-item-light">Upcoming events</li>
-                </ul>
-              </p>
+<div class="wrapper">
+	<h1>Hi. Log in as </h1>
+	<div class="profile-wrap">
+        
+        <a href="{% url 'login' %}">
+            <div class="profile">
+                <div class="profile-icon profile5">
+                    
+                </div>
+                <div class="profile-name">
+                    Student
+                </div>
+		    </div>
+        </a>
+        
+        <a href="{% url 'login' %}">
+        <div class="profile">
+            <div class="profile-icon profile4">
+                
             </div>
-          </div>
-          {%else %}
-          <div class="col-md-4">
-            <div class="content-section">
-              <h3>Students Attendance</h3>
-              <p class='text-muted'>See everything the students are doing at a glance
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-light">Not attending classes</li>
-                  <li class="list-group-item list-group-item-light">Drinking</li>
-                  <li class="list-group-item list-group-item-light">Partying</li>
-                  <li class="list-group-item list-group-item-light">Nothing</li>
-                </ul>
-              </p>
+            <div class="profile-name">
+                ADMIN
             </div>
-          </div>
-          {% endif %}
+		</div>
+        </a>
+		
+	</div>
+	
+</div>
         </div>
       </main>  
 
