@@ -1,16 +1,17 @@
 
 {% extends "attend_class_app/base.html" %}
+
 {% block content %}
     {% for unit in units%}
         <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ unit.user.profile.image.url }}">
+            
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="#">{{ unit.Lecturer }}</a>
                     <!-- <small class="text-muted">{{ unit.UnitTopics }}</small> tags -->
                     
                 </div>
-                <h2><a class="article-title" href="{% url 'unit-detail' unit.id %}">{{ unit.UnitName }}</a></h2>
+                <h2><a class="article-title" href="{% url 'unit' unit.id %}">{{ unit.UnitName }}</a></h2>
                 <p class="article-content">{{ unit.UnitTopics }}</p>
             </div>
         </article>

@@ -5,8 +5,9 @@ from . import views
 
 urlpatterns = [
     path('', views.UnitListView, name = 'attend-home'),
-    path('unit/<int:pk>', views.UnitDetailView.as_view(), name = 'unit-detail'),
+    path('unit/<int:id>', views.unit, name = 'unit'),
     path('about/', views.about, name = 'attend-about'),
-    path('facialrecognition/', views.facesystem, name = 'attend-facialrecognition'),
-
+    path('units/', views.all_units, name = 'attend-units'),
+    path('unit/<int:id>/admin/', views.units_admin, name = 'attend-units-admin'),
+    path('unit/<int:id>/admin/records/', views.records, name='attend-records')
 ]

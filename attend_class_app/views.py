@@ -1,32 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import (ListView, DetailView, View)
-from .models import Units
+from .models import Units, Lesson, Class
 from .forms import Uploadphoto
 import joblib
-
-
-
-
-arr = []
-context =  Units.objects.all().values()
-
-for i in context:
-    arr.append(i)
-
-print(arr)
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
     return render(request, 'attend_class_app/home.html', context)
 
-# class UnitListView(ListView):
-#     print(context)
-#     model = Units
-#     template_name = 'attend_class_app/home.html'
-#     context_object_name = 'units'
-
+@login_required
 def UnitListView(request):
-    units =  Units.objects.all()
+    if request.user.is_superuser:
+        return redirect('attend-units')
+    # classes =  Class.objects.filter(user = request.user)
+    # for a_class in classes:
+    #     print(a_class.units)
+
+    units = Units.objects.all()
     return render(request, "attend_class_app/home.html", {"units": units})
 
 
@@ -38,20 +29,13 @@ def UnitListView(request):
 #     return render(request, "attend_class_app/home.html", {"units": units})
 
 
-
-class UnitDetailView(View):
-    def get(self, request, *args, **kwargs):
-        # id  = request.GET["id"]
-        return render(request, 'attend_class_app/unit_detail.html', {'units' :arr})
+@login_required
+def unit(request, id):
+    unit = Units.objects.get(id = id)
+    print(unit)
+    return render(request, 'attend_class_app/unit_detail.html', {'unit' :unit})
 
  
-    
-
-# def UnitDetailView(request):
-#     if request.method == 'POST':
-#         print(context)
-#     return render (request, 'attend_class_app/unit_detail.html' , { 'context' : context })
-
 def about(request):
     return render(request, 'attend_class_app/about.html', {'title':'About'})  
 
@@ -81,22 +65,38 @@ def themodel(image):
 				
 	return render(request, 'myform/cxform.html', {'form':form})'''
 
+@login_required
+def units_admin(request, id):
+    if not request.user.is_superuser:
+        return redirect('attend-home')
+   
+    lessons = Lesson.objects.filter(unit= id)
+    unit = Units.objects.get(id = id)
+    print(lessons)
+    return render( request, 'attend_class_app/lessons.html', {'lessons':lessons, 'unit':unit })
 
-def facesystem(request):
 
+def all_units(request):
+    if not request.user.is_superuser:
+        return redirectr('attend-home')
+    
+    units = Units.objects.all()
+
+    return render(request, 'attend_class_app/units.html', {'units': units})
+
+def records(request, id):
+    if not request.user.is_superuser:
+        return redirect('attend-home')
+
+    lesson = Lesson.objects.get(id = id)
+     
     if request.method == "POST":
-        print(request.values)
-        form = Uploadphoto(request.POST, request.FILES)
-        if form.is_valid():
-            image = form.cleaned_data['image']
-            print(type(image))
-            pred = themodel(image)
-            print(pred)
-            messages.success(request,'Prediction: {}'.format(pred))
-        else:
-            print(form.errors)
-            print('Not valid')
         
-    form = Uploadphoto()
+        image = form.cleaned_data['image']
+        print(type(image))
+        pred = themodel(image)
+        print(pred)
+        messages.success(request,'Prediction: {}'.format(pred))
 
-    return render( request, 'attend_class_app/upload.html', {'form':form})
+    return render(request, 'attend_class_app/upload.html')
+
